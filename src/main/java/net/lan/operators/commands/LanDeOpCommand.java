@@ -13,7 +13,6 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.TranslatableText;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 public class LanDeOpCommand {
     private static final SimpleCommandExceptionType ALREADY_DEOPPED_EXCEPTION = new SimpleCommandExceptionType(new TranslatableText("commands.deop.failed"));
