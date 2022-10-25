@@ -4,7 +4,7 @@ package net.lan.operators;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.lan.operators.commands.LanDeOpCommand;
 import net.lan.operators.commands.LanOpCommand;
 
@@ -18,7 +18,7 @@ public class LanOperatorsServerInitialiser implements DedicatedServerModInitiali
     {
 
         //register commands
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
         {
             LanOpCommand.register(dispatcher);
             LanDeOpCommand.register(dispatcher);

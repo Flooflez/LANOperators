@@ -1,17 +1,15 @@
 package net.lan.operators;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.lan.operators.commands.LanDeOpCommand;
 import net.lan.operators.commands.LanOpCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LanOperators implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
 		{
 			LanOpCommand.register(dispatcher);
 			LanDeOpCommand.register(dispatcher);
