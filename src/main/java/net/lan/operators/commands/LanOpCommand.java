@@ -13,6 +13,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 public class LanOpCommand {
     private static final SimpleCommandExceptionType ALREADY_OPPED_EXCEPTION = new SimpleCommandExceptionType(Text.translatable("commands.op.failed"));
@@ -24,14 +25,14 @@ public class LanOpCommand {
         dispatcher.register((LiteralArgumentBuilder)((LiteralArgumentBuilder) CommandManager.literal("op").requires((source) -> {
             return source.hasPermissionLevel(3);
         })).then(CommandManager.argument("targets", GameProfileArgumentType.gameProfile()).suggests((context, builder) -> {
-            PlayerManager playerManager = ((ServerCommandSource)context.getSource()).getServer().getPlayerManager();
+            PlayerManager playerManager = (context.getSource()).getServer().getPlayerManager();
             return CommandSource.suggestMatching(playerManager.getPlayerList().stream().filter((player) -> {
                 return !playerManager.isOperator(player.getGameProfile());
             }).map((player) -> {
                 return player.getGameProfile().getName();
             }), builder);
         }).executes((context) -> {
-            return op((ServerCommandSource)context.getSource(), GameProfileArgumentType.getProfileArgument(context, "targets"));
+            return op(context.getSource(), GameProfileArgumentType.getProfileArgument(context, "targets"));
         })));
     }
 
@@ -43,7 +44,9 @@ public class LanOpCommand {
             if (!playerManager.isOperator(gameProfile)) {
                 playerManager.addToOperators(gameProfile);
                 ++i;
-                source.sendFeedback(Text.translatable("commands.op.success", new Object[]{((GameProfile)targets.iterator().next()).getName()}), true);
+                source.sendFeedback(() -> {
+                    return Text.translatable("commands.op.success", new Object[]{((GameProfile) targets.iterator().next()).getName()});
+                }, true);
             }
         }
 

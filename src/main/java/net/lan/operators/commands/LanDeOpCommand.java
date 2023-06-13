@@ -24,9 +24,9 @@ public class LanDeOpCommand {
         dispatcher.register((LiteralArgumentBuilder)((LiteralArgumentBuilder) CommandManager.literal("deop").requires((source) -> {
             return source.hasPermissionLevel(3);
         })).then(CommandManager.argument("targets", GameProfileArgumentType.gameProfile()).suggests((context, builder) -> {
-            return CommandSource.suggestMatching(((ServerCommandSource)context.getSource()).getServer().getPlayerManager().getOpNames(), builder);
+            return CommandSource.suggestMatching((context.getSource()).getServer().getPlayerManager().getOpNames(), builder);
         }).executes((context) -> {
-            return deop((ServerCommandSource)context.getSource(), GameProfileArgumentType.getProfileArgument(context, "targets"));
+            return deop(context.getSource(), GameProfileArgumentType.getProfileArgument(context, "targets"));
         })));
     }
 
@@ -38,7 +38,9 @@ public class LanDeOpCommand {
             if (playerManager.isOperator(gameProfile)) {
                 playerManager.removeFromOperators(gameProfile);
                 ++i;
-                source.sendFeedback(Text.translatable("commands.deop.success", new Object[]{((GameProfile)targets.iterator().next()).getName()}), true);
+                source.sendFeedback(() -> {
+                    return Text.translatable("commands.deop.success", new Object[]{((GameProfile) targets.iterator().next()).getName()});
+                }, true);
             }
         }
 
