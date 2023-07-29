@@ -13,7 +13,7 @@
   },
 
   "license": "MIT",
-  "icon": "assets/lanoperators/icon.png",
+  "icon": "icon.png",
 
   "environment": "*",
   "entrypoints": {
